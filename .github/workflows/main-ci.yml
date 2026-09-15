@@ -21,6 +21,8 @@ jobs:
       # Playwright's browsers are headless; the shared xvfb wrapper is not needed.
       browser-tests: false
       run-audit-signatures: true
+      # We don't have a SonarCloud project (or token) for this fork.
+      run-sonar: false
 
   release:
     runs-on: ubuntu-latest
