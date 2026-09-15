@@ -1,4 +1,3 @@
-import type { ChartConfiguration, ChartDataset, ChartTypeRegistry } from 'chart.js'
 import type {
   SankeyControllerDatasetFlowLabelsOptions,
   SankeyControllerDatasetOptions,
@@ -12,10 +11,11 @@ import type {
   SankeyParsedData,
   SankeyParsingOptions,
   SankeyScriptableContext,
-} from 'chartjs-chart-sankey'
+} from '@hedgehoglab/chartjs-chart-sankey'
+import type { ChartConfiguration, ChartDataset, ChartTypeRegistry } from 'chart.js'
 
+import { Flow, SankeyController } from '@hedgehoglab/chartjs-chart-sankey'
 import { Chart } from 'chart.js'
-import { Flow, SankeyController } from 'chartjs-chart-sankey'
 
 Chart.register(SankeyController, Flow)
 

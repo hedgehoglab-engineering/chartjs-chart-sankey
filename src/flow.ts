@@ -41,9 +41,9 @@ const pointInLine = (p1: FlowPoint, p2: FlowPoint, t: number): FlowPoint => ({
   y: p1.y + t * (p2.y - p1.y),
 })
 
-const applyAlpha = (original: string, alpha: number): string =>
-  color(original).alpha(alpha).rgbString()
-const getColorOption = (option: Color, alpha: number): Color =>
+const applyAlpha = (original: string, alpha?: number): string =>
+  alpha ? color(original).alpha(alpha).rgbString() : original
+const getColorOption = (option: Color, alpha?: number): Color =>
   typeof option === 'string' ? applyAlpha(option, alpha) : option
 const getHoverColorOption = (option: Color): Color =>
   typeof option === 'string' ? getHoverColor(option) : option
@@ -54,9 +54,9 @@ function setStyle(ctx: CanvasRenderingContext2D, { x, x2, y, y2, options }: Flow
   if (options.flowColor !== null) {
     fill = options.flowColor
   } else if (options.colorMode === 'from') {
-    fill = getColorOption(options.colorFrom, options.alpha)
+    fill = getColorOption(options.colorFrom)
   } else if (options.colorMode === 'to') {
-    fill = getColorOption(options.colorTo, options.alpha)
+    fill = getColorOption(options.colorTo)
   } else if (typeof options.colorFrom === 'string' && typeof options.colorTo === 'string') {
     fill =
       options.orientation === 'vertical'
@@ -67,8 +67,6 @@ function setStyle(ctx: CanvasRenderingContext2D, { x, x2, y, y2, options }: Flow
   }
 
   ctx.fillStyle = fill
-  ctx.strokeStyle = fill
-  ctx.lineWidth = 0.5
 }
 
 type FlowGeometry = Required<Pick<FlowConfig, 'height' | 'width' | 'x' | 'x2' | 'y' | 'y2'>>
@@ -105,7 +103,6 @@ function drawFlowPath(
     ctx.bezierCurveTo(cp2.x, cp2.y + height, cp1.x, cp1.y + height, x, y + height)
   }
   ctx.lineTo(x, y)
-  ctx.stroke()
   ctx.closePath()
   ctx.fill()
 }

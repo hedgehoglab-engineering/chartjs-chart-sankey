@@ -1,6 +1,6 @@
+import { Flow, SankeyController } from '@hedgehoglab/chartjs-chart-sankey'
 import { createCanvas } from '@napi-rs/canvas'
 import { Chart, LinearScale } from 'chart.js'
-import { Flow, SankeyController } from 'chartjs-chart-sankey'
 
 Chart.register(LinearScale, SankeyController, Flow)
 

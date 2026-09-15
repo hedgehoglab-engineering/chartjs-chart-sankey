@@ -21,8 +21,6 @@ jobs:
       # Playwright's browsers are headless; the shared xvfb wrapper is not needed.
       browser-tests: false
       run-audit-signatures: true
-    secrets:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   release:
     runs-on: ubuntu-latest
@@ -32,9 +30,6 @@ jobs:
       id-token: write
       issues: write
       pull-requests: write
-    outputs:
-      released: ${{ steps.release-version.outputs.released }}
-      version: ${{ steps.release-version.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -56,29 +51,5 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx --no-install semantic-release
-
-      - name: Resolve released version
-        id: release-version
-        run: |
-          VERSION=$(git describe --tags --exact-match HEAD 2>/dev/null | sed 's/^v//')
-          if [ -z "$VERSION" ]; then
-            echo "released=false" >> "$GITHUB_OUTPUT"
-            echo "No release tag on HEAD, skipping Cloudflare Pages version update"
-            exit 0
-          fi
-          echo "released=true" >> "$GITHUB_OUTPUT"
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "Resolved released version: $VERSION"
-
-  docs-deploy:
-    needs: release
-    if: needs.release.outputs.released == 'true'
-    uses: kurkle/configs/.github/workflows/docs-deploy.yml@v1
-    with:
-      version: ${{ needs.release.outputs.version }}
-    secrets:
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_PAGES_PROJECT: ${{ secrets.CLOUDFLARE_PAGES_PROJECT }}
-      CLOUDFLARE_PAGES_DEPLOY_HOOK: ${{ secrets.CLOUDFLARE_PAGES_DEPLOY_HOOK }}

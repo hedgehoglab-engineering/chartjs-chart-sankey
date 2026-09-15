@@ -61,9 +61,40 @@ describe('Flow', () => {
     flow.draw(context)
 
     expect(context.fillStyle).toBe('#123456')
-    expect(context.strokeStyle).toBe('#123456')
     expect(flow.options.colorFrom).toBe('red')
     expect(flow.options.colorTo).toBe('green')
+  })
+
+  it('never strokes a flow (hedgehog lab: flows have no border)', () => {
+    const context = createContext()
+    const flow = new Flow({
+      flow: 5,
+      height: 10,
+      options: createOptions('#123456'),
+      x: 0,
+      x2: 100,
+      y: 0,
+      y2: 10,
+    })
+
+    flow.draw(context)
+
+    expect(context.stroke).not.toHaveBeenCalled()
+    expect(context.strokeStyle).toBe('')
+    expect(context.lineWidth).toBe(0)
+  })
+
+  it('passes colorFrom/colorTo through unchanged in from/to colour mode, ignoring alpha (hedgehog lab: preserve pre-baked alpha)', () => {
+    const context = createContext()
+    const options = createOptions(null)
+    options.colorMode = 'from'
+    options.colorFrom = 'rgba(1, 2, 3, 0.75)'
+    options.alpha = 0.5
+    const flow = new Flow({ flow: 5, height: 10, options, x: 0, x2: 100, y: 0, y2: 10 })
+
+    flow.draw(context)
+
+    expect(context.fillStyle).toBe('rgba(1, 2, 3, 0.75)')
   })
 
   it('draws the flow value using the configured label options', () => {
