@@ -7,6 +7,13 @@ updates:
     groups:
       dev-dependencies:
         dependency-type: "development"
+        # chartjs-chart-sankey isn't a real dependency of this fork — it's a
+        # tripwire so Dependabot notices new upstream releases (see the
+        # devDependencies entry and the README). Keep it out of the grouped
+        # dev-dependencies PR so it shows up as its own clearly-labelled PR
+        # instead of getting buried among routine tooling bumps.
+        exclude-patterns:
+          - "chartjs-chart-sankey"
     ignore:
       # @astrojs/check requires typescript ^5 || ^6, so TS 7 fails npm ci
       # with ERESOLVE and stalls the whole dev-dependencies group.

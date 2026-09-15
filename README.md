@@ -38,6 +38,14 @@ automated (a bot or LLM-driven workflow triggered off new upstream releases that
 these customizations) — the tests above exist specifically so that process has something to verify
 against — but that automation doesn't exist yet; for now, upgrades are a manual `git merge`.
 
+To know *when* a merge is worth doing, `chartjs-chart-sankey` (the original, unscoped package) is listed
+in `devDependencies`, pinned to the upstream version this fork is currently based on. It is never imported
+or used — it exists purely as a tripwire so Dependabot opens a PR here whenever `kurkle/chartjs-chart-sankey`
+publishes a new release. `.github/dependabot.yml` keeps it out of the grouped dev-dependencies update so
+that PR is easy to spot rather than getting buried among routine tooling bumps. When that PR shows up:
+merge upstream as above, bump this devDependency to match the new version (that's what closes the
+Dependabot PR), and re-verify the diffs.
+
 **Publishing** works exactly as it does upstream: pushing to `main` runs CI, which runs `semantic-release`
 based on conventional-commit messages — that's what bumps the version, publishes to npm, and cuts the
 GitHub release. There's no manual `npm publish` step.
