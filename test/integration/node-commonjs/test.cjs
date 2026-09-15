@@ -2,7 +2,7 @@ const { createCanvas } = require('@napi-rs/canvas')
 const { Chart, LinearScale } = require('chart.js')
 
 // side-effects
-require('chartjs-chart-sankey')
+require('@hedgehoglab/chartjs-chart-sankey')
 
 Chart.register(LinearScale)
 

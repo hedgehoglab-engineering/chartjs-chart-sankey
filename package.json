@@ -1,7 +1,10 @@
 {
-  "author": "Jukka Kurkela",
+  "author": {
+    "name": "hedgehog lab",
+    "url": "https://www.hedgehoglab.com"
+  },
   "bugs": {
-    "url": "https://github.com/kurkle/chartjs-chart-sankey/issues"
+    "url": "https://github.com/hedgehoglab-engineering/chartjs-chart-sankey/issues"
   },
   "description": "Chart.js module for creating sankey diagrams",
   "devDependencies": {
@@ -54,7 +57,7 @@
     "dist/*",
     "!dist/docs/**"
   ],
-  "homepage": "https://chartjs-chart-sankey.pages.dev/",
+  "homepage": "https://github.com/hedgehoglab-engineering/chartjs-chart-sankey#readme",
   "jsdelivr": "dist/chartjs-chart-sankey.min.js",
   "keywords": [
     "chart.js",
@@ -64,13 +67,16 @@
   "license": "MIT",
   "main": "dist/chartjs-chart-sankey.cjs",
   "module": "dist/chartjs-chart-sankey.esm.js",
-  "name": "chartjs-chart-sankey",
+  "name": "@hedgehoglab/chartjs-chart-sankey",
   "peerDependencies": {
     "chart.js": ">=3.3.0"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kurkle/chartjs-chart-sankey.git"
+    "url": "git+https://github.com/hedgehoglab-engineering/chartjs-chart-sankey.git"
   },
   "scripts": {
     "autobuild": "rollup -c -w",

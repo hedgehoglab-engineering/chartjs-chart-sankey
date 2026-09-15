@@ -363,7 +363,7 @@ export default class SankeyController extends DatasetController {
   }
 
   declare options: SankeyControllerDatasetOptions
-  private _nodes = new Map<string, SankeyNode>()
+  _nodes = new Map<string, SankeyNode>()
   private _maxX = 0
   private _maxY = 0
 
@@ -483,7 +483,7 @@ export default class SankeyController extends DatasetController {
     }
   }
 
-  private _drawLabels() {
+  _drawLabels = () => {
     const ctx = this.chart.ctx
     const options = this.options
     const nodes = this._nodes || new Map()
